@@ -38,7 +38,7 @@ namespace DTAConfig
             BackgroundTexture = AssetLoader.LoadTextureUncached("optionsbg.png");
 
             tabControl = new XNAClientTabControl(WindowManager);
-            tabControl.Name = "tabControl";
+            tabControl.Name = nameof(tabControl);
             tabControl.ClientRectangle = new Rectangle(12, 12, 0, 23);
             tabControl.FontIndex = 1;
             tabControl.ClickSound = new EnhancedSoundEffect("button.wav");
@@ -130,12 +130,13 @@ namespace DTAConfig
         {
             if (CustomComponent.IsDownloadInProgress())
             {
-                var msgBox = new XNAMessageBox(WindowManager, "Downloads in progress",
+                var msgDownloadInProgress = new XNAMessageBox(WindowManager, "Downloads in progress",
                     "Optional component downloads are in progress. The downloads will be cancelled if you exit the Options menu." +
                     Environment.NewLine + Environment.NewLine +
                     "Are you sure you want to continue?", XNAMessageBoxButtons.YesNo);
-                msgBox.Show();
-                msgBox.YesClickedAction = ExitDownloadCancelConfirmation_YesClicked;
+                msgDownloadInProgress.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgDownloadInProgress));
+                msgDownloadInProgress.Show();
+                msgDownloadInProgress.YesClickedAction = ExitDownloadCancelConfirmation_YesClicked;
 
                 return;
             }
@@ -155,12 +156,13 @@ namespace DTAConfig
         {
             if (CustomComponent.IsDownloadInProgress())
             {
-                var msgBox = new XNAMessageBox(WindowManager, "Downloads in progress",
+                var msgDownloadInProgress = new XNAMessageBox(WindowManager, "Downloads in progress",
                     "Optional component downloads are in progress. The downloads will be cancelled if you exit the Options menu." +
                     Environment.NewLine + Environment.NewLine +
                     "Are you sure you want to continue?", XNAMessageBoxButtons.YesNo);
-                msgBox.Show();
-                msgBox.YesClickedAction = SaveDownloadCancelConfirmation_YesClicked;
+                msgDownloadInProgress.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgDownloadInProgress));
+                msgDownloadInProgress.Show();
+                msgDownloadInProgress.YesClickedAction = SaveDownloadCancelConfirmation_YesClicked;
 
                 return;
             }
@@ -192,20 +194,26 @@ namespace DTAConfig
             catch (Exception ex)
             {
                 Logger.Log("Saving settings failed! Error message: " + ex.Message);
-                XNAMessageBox.Show(WindowManager, "Saving Settings Failed",
-                    "Saving settings failed! Error message: " + ex.Message);
+                var msgSavingSettingFailed = new XNAMessageBox(WindowManager, "Saving Settings Failed",
+                    "Saving settings failed! Error message: {0}" , XNAMessageBoxButtons.OK);
+
+                msgSavingSettingFailed.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgSavingSettingFailed));
+                msgSavingSettingFailed.Description = string.Format(msgSavingSettingFailed.Description, ex.Message);
+
+                msgSavingSettingFailed.Show();
             }
 
             Disable();
 
             if (restartRequired)
             {
-                var msgBox = new XNAMessageBox(WindowManager, "Restart Required",
+                var msgRestartRequired = new XNAMessageBox(WindowManager, "Restart Required",
                     "The client needs to be restarted for some of the changes to take effect." +
                     Environment.NewLine + Environment.NewLine +
                     "Do you want to restart now?", XNAMessageBoxButtons.YesNo);
-                msgBox.Show();
-                msgBox.YesClickedAction = RestartMsgBox_YesClicked;
+                msgRestartRequired.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgRestartRequired));
+                msgRestartRequired.Show();
+                msgRestartRequired.YesClickedAction = RestartMsgBox_YesClicked;
             }
         }
 
@@ -227,12 +235,15 @@ namespace DTAConfig
 
             if (optionValuesChanged)
             {
-                XNAMessageBox.Show(WindowManager, "Setting Value(s) Changed",
+                var msgSettingsValuesChanged = new XNAMessageBox(WindowManager, "Setting Value(s) Changed",
                     "One or more setting values are" + Environment.NewLine +
                     "no longer available and were changed." +
                     Environment.NewLine + Environment.NewLine +
                     "You may want to verify the new setting" + Environment.NewLine +
-                    "values in client's options window.");
+                    "values in client's options window.", XNAMessageBoxButtons.OK);
+
+                msgSettingsValuesChanged.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgSettingsValuesChanged));
+                msgSettingsValuesChanged.Show();
 
                 return true;
             }

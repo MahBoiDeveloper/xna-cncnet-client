@@ -377,13 +377,19 @@ namespace DTAConfig.OptionPanels
             {
                 string defaultGame = ClientConfiguration.Instance.LocalGame;
 
-                var messageBox = XNAMessageBox.ShowYesNoDialog(WindowManager, "New Compatibility Fix",
+                var msgNewCompatibilityFix = new XNAMessageBox(WindowManager, "New Compatibility Fix",
                     "A performance-enhancing compatibility fix for modern Windows versions" + Environment.NewLine +
-                    "has been included in this version of " + defaultGame + ". Enabling it requires" + Environment.NewLine +
+                    "has been included in this version of {0}. Enabling it requires" + Environment.NewLine +
                     "administrative priveleges. Would you like to install the compatibility fix?" + Environment.NewLine + Environment.NewLine + 
-                    "You'll always be able to install or uninstall the compatibility fix later from the options menu.");
-                messageBox.YesClickedAction = MessageBox_YesClicked;
-                messageBox.NoClickedAction = MessageBox_NoClicked;
+                    "You'll always be able to install or uninstall the compatibility fix later from the options menu.", XNAMessageBoxButtons.YesNo);
+
+                msgNewCompatibilityFix.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgNewCompatibilityFix));
+                msgNewCompatibilityFix.Description = string.Format(msgNewCompatibilityFix.Description, defaultGame);
+                
+                msgNewCompatibilityFix.Show();
+
+                msgNewCompatibilityFix.YesClickedAction = MessageBox_YesClicked;
+                msgNewCompatibilityFix.NoClickedAction = MessageBox_NoClicked;
             }
         }
 
@@ -424,8 +430,12 @@ namespace DTAConfig.OptionPanels
                     sdbinst.WaitForExit();
 
                     Logger.Log("DTA/TI/TS Compatibility Fix succesfully uninstalled.");
-                    XNAMessageBox.Show(WindowManager, "Compatibility Fix Uninstalled",
-                        "The DTA/TI/TS Compatibility Fix has been succesfully uninstalled.");
+                    var msgCompatibilityFixUninstalled = new XNAMessageBox(WindowManager, "Compatibility Fix Uninstalled",
+                        "The DTA/TI/TS Compatibility Fix has been succesfully uninstalled.", XNAMessageBoxButtons.OK);
+
+                    msgCompatibilityFixUninstalled.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgCompatibilityFixUninstalled));
+
+                    msgCompatibilityFixUninstalled.Show();
 
                     RegistryKey regKey = Registry.CurrentUser.OpenSubKey("SOFTWARE", true);
                     regKey = regKey.CreateSubKey("Tiberian Sun Client");
@@ -438,8 +448,13 @@ namespace DTAConfig.OptionPanels
                 catch (Exception ex)
                 {
                     Logger.Log("Uninstalling DTA/TI/TS Compatibility Fix failed. Error message: " + ex.Message);
-                    XNAMessageBox.Show(WindowManager, "Uninstalling Compatibility Fix Failed",
-                        "Uninstalling DTA/TI/TS Compatibility Fix failed. Returned error: " + ex.Message);
+                    var msgUninstallingCompatibilityFixFailed = new XNAMessageBox(WindowManager, "Uninstalling Compatibility Fix Failed",
+                        "Uninstalling DTA/TI/TS Compatibility Fix failed. Returned error: {0}", XNAMessageBoxButtons.OK);
+
+                    msgUninstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgUninstallingCompatibilityFixFailed));
+                    msgUninstallingCompatibilityFixFailed.Description = string.Format(msgUninstallingCompatibilityFixFailed.Description, ex.Message);
+
+                    msgUninstallingCompatibilityFixFailed.Show();
                 }
 
                 return;
@@ -452,8 +467,12 @@ namespace DTAConfig.OptionPanels
                 sdbinst.WaitForExit();
 
                 Logger.Log("DTA/TI/TS Compatibility Fix succesfully installed.");
-                XNAMessageBox.Show(WindowManager, "Compatibility Fix Installed",
-                    "The DTA/TI/TS Compatibility Fix has been succesfully installed.");
+                var msgCompatibilityFixInstalled = new XNAMessageBox(WindowManager, "Compatibility Fix Installed",
+                    "The DTA/TI/TS Compatibility Fix has been succesfully installed.", XNAMessageBoxButtons.OK);
+
+                msgCompatibilityFixInstalled.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgCompatibilityFixInstalled));
+
+                msgCompatibilityFixInstalled.Show();
 
                 RegistryKey regKey = Registry.CurrentUser.OpenSubKey("SOFTWARE", true);
                 regKey = regKey.CreateSubKey("Tiberian Sun Client");
@@ -466,8 +485,13 @@ namespace DTAConfig.OptionPanels
             catch (Exception ex)
             {
                 Logger.Log("Installing DTA/TI/TS Compatibility Fix failed. Error message: " + ex.Message);
-                XNAMessageBox.Show(WindowManager, "Installing Compatibility Fix Failed",
-                    "Installing DTA/TI/TS Compatibility Fix failed. Error message: " + ex.Message);
+                var msgInstallingCompatibilityFixFailed = new XNAMessageBox(WindowManager, "Installing Compatibility Fix Failed",
+                    "Installing DTA/TI/TS Compatibility Fix failed. Error message: {0}", XNAMessageBoxButtons.OK);
+
+                msgInstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgInstallingCompatibilityFixFailed));
+                msgInstallingCompatibilityFixFailed.Description = string.Format(msgInstallingCompatibilityFixFailed.Description, ex.Message);
+
+                msgInstallingCompatibilityFixFailed.Show();
             }
         }
 
@@ -488,21 +512,29 @@ namespace DTAConfig.OptionPanels
                     btnMapEditorCompatibilityFix.Text = "Enable";
 
                     Logger.Log("FinalSun Compatibility Fix succesfully uninstalled.");
-                    XNAMessageBox.Show(WindowManager, "Compatibility Fix Uninstalled",
-                        "The FinalSun Compatibility Fix has been succesfully uninstalled.");
+                    var msgFSCompatibilityFixUninstalled = new XNAMessageBox(WindowManager, "Compatibility Fix Uninstalled",
+                        "The FinalSun Compatibility Fix has been succesfully uninstalled.", XNAMessageBoxButtons.OK);
+
+                    msgFSCompatibilityFixUninstalled.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgFSCompatibilityFixUninstalled));
+
+                    msgFSCompatibilityFixUninstalled.Show();
 
                     FinalSunCompatFixInstalled = false;
                 }
                 catch (Exception ex)
                 {
                     Logger.Log("Uninstalling FinalSun Compatibility Fix failed. Error message: " + ex.Message);
-                    XNAMessageBox.Show(WindowManager, "Uninstalling Compatibility Fix Failed",
-                        "Uninstalling FinalSun Compatibility Fix failed. Error message: " + ex.Message);
+                    var msgFSUninstallingCompatibilityFixFailed = new XNAMessageBox(WindowManager, "Uninstalling Compatibility Fix Failed",
+                        "Uninstalling FinalSun Compatibility Fix failed. Error message: {0}", XNAMessageBoxButtons.OK);
+
+                    msgFSUninstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgFSUninstallingCompatibilityFixFailed));
+                    msgFSUninstallingCompatibilityFixFailed.Description = string.Format(msgFSUninstallingCompatibilityFixFailed.Description, ex.Message);
+
+                    msgFSUninstallingCompatibilityFixFailed.Show();
                 }
 
                 return;
             }
-
 
             try
             {
@@ -517,16 +549,25 @@ namespace DTAConfig.OptionPanels
                 btnMapEditorCompatibilityFix.Text = "Disable";
 
                 Logger.Log("FinalSun Compatibility Fix succesfully installed.");
-                XNAMessageBox.Show(WindowManager, "Compatibility Fix Installed",
-                    "The FinalSun Compatibility Fix has been succesfully installed.");
+                var msgFSCompatibilityFixInstalled = new XNAMessageBox(WindowManager, "Compatibility Fix Installed",
+                    "The FinalSun Compatibility Fix has been succesfully installed.", XNAMessageBoxButtons.OK);
+
+                msgFSCompatibilityFixInstalled.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgFSCompatibilityFixInstalled));
+
+                msgFSCompatibilityFixInstalled.Show();
 
                 FinalSunCompatFixInstalled = true;
             }
             catch (Exception ex)
             {
                 Logger.Log("Installing FinalSun Compatibility Fix failed. Error message: " + ex.Message);
-                XNAMessageBox.Show(WindowManager, "Installing Compatibility Fix Failed",
-                    "Installing FinalSun Compatibility Fix failed. Error message: " + ex.Message);
+                var msgFSInstallingCompatibilityFixFailed = new XNAMessageBox(WindowManager, "Installing Compatibility Fix Failed",
+                    "Installing FinalSun Compatibility Fix failed. Error message: {0}", XNAMessageBoxButtons.OK);
+
+                msgFSInstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgFSInstallingCompatibilityFixFailed));
+                msgFSInstallingCompatibilityFixFailed.Description = string.Format(msgFSInstallingCompatibilityFixFailed.Description, ex.Message);
+
+                msgFSInstallingCompatibilityFixFailed.Show();
             }
         }
 

@@ -145,18 +145,21 @@ namespace DTAConfig.OptionPanels
             }
             else
             {
-                var msgBox = new XNAMessageBox(WindowManager, "Confirmation Required",
-                    "To enable " + cc.GUIName + " the Client will download the necessary files to your game directory." +
+                var msgConfirmationRequired = new XNAMessageBox(WindowManager, "Confirmation Required",
+                    "To enable {0} the Client will download the necessary files to your game directory." +
                     Environment.NewLine + Environment.NewLine +
-                    "This will take an additional " + GetSizeString(cc.RemoteSize) + " of disk space, and the download may last" +
+                    "This will take an additional {1} of disk space, and the download may last" +
                     Environment.NewLine +
                     "from a few minutes to multiple hours depending on your Internet connection speed." +
                     Environment.NewLine + Environment.NewLine +
                     "You will not be able to play during the download. Do you want to continue?", XNAMessageBoxButtons.YesNo);
-                msgBox.Tag = btn;
+                msgConfirmationRequired.Tag = btn;
 
-                msgBox.Show();
-                msgBox.YesClickedAction = MsgBox_YesClicked;
+                msgConfirmationRequired.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgConfirmationRequired));
+                msgConfirmationRequired.Description = string.Format(msgConfirmationRequired.Description, cc.GUIName, GetSizeString(cc.RemoteSize));
+
+                msgConfirmationRequired.Show();
+                msgConfirmationRequired.YesClickedAction = MsgBox_YesClicked;
             }
         }
 
@@ -226,11 +229,16 @@ namespace DTAConfig.OptionPanels
             {
                 if (!downloadCancelled)
                 {
-                    XNAMessageBox.Show(WindowManager, "Optional Component Download Failed",
-                        string.Format("Download of optional component {0} failed." + Environment.NewLine +
+                    var msgOptionalComponentDownloadFailed = new XNAMessageBox(WindowManager, "Optional Component Download Failed",
+                        "Download of optional component {0} failed." + Environment.NewLine +
                         "See client.log for details." + Environment.NewLine + Environment.NewLine +
                         "If this problem continues, please contact your mod's authors for support.",
-                        cc.GUIName));
+                        XNAMessageBoxButtons.OK);
+
+                    msgOptionalComponentDownloadFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgOptionalComponentDownloadFailed));
+                    msgOptionalComponentDownloadFailed.Description = string.Format(msgOptionalComponentDownloadFailed.Description, cc.GUIName);
+
+                    msgOptionalComponentDownloadFailed.Show();
                 }
 
                 btn.Text = "Install (" + GetSizeString(cc.RemoteSize) + ")";
@@ -240,8 +248,13 @@ namespace DTAConfig.OptionPanels
             }
             else
             {
-                XNAMessageBox.Show(WindowManager, "Download Completed",
-                    string.Format("Download of optional component {0} completed succesfully.", cc.GUIName));
+                var msgDownloadCompleted = new XNAMessageBox(WindowManager, "Download Completed",
+                    "Download of optional component {0} completed succesfully.", XNAMessageBoxButtons.OK);
+                
+                msgDownloadCompleted.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgDownloadCompleted));
+                msgDownloadCompleted.Description = string.Format(msgDownloadCompleted.Description, cc.GUIName);
+                msgDownloadCompleted.Show();
+
                 btn.Text = "Uninstall";
             }
         }

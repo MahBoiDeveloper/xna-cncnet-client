@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Rampastring.Tools;
 using Rampastring.XNAUI.XNAControls;
 using Rampastring.XNAUI;
 using Microsoft.Xna.Framework.Input;
+using ClientCore;
 
 namespace ClientGUI
 {
@@ -52,6 +54,18 @@ namespace ClientGUI
         private string description;
         private XNAMessageBoxButtons messageBoxButtons;
 
+        public string Description
+        {
+            get
+            {
+                return description;
+            }
+            set
+            {
+                this.description = Description;
+            }
+        }
+
         public override void Initialize()
         {
             Name = "MessageBox";
@@ -93,6 +107,13 @@ namespace ClientGUI
             base.Initialize();
 
             WindowManager.CenterControlOnScreen(this);
+        }
+
+        public void RewriteCaptionAndDescriptionFromIni(string strFileToParseStrings, string strSection)
+        {
+            ThemeCCIniFile iniFile = new ThemeCCIniFile(strFileToParseStrings);
+            caption     = iniFile.GetStringValue(strSection, "Caption", caption)        .Replace("@", Environment.NewLine);
+            description = iniFile.GetStringValue(strSection, "Description", description).Replace("@", Environment.NewLine);
         }
 
         private void AddOKButton()

@@ -78,7 +78,7 @@ namespace DTAConfig.OptionPanels
 
         private void BtnForceUpdate_LeftClick(object sender, EventArgs e)
         {
-            var msgBox = new XNAMessageBox(WindowManager, "Force Update Confirmation",
+            var msgForceUpdateConfirmation = new XNAMessageBox(WindowManager, "Force Update Confirmation",
                     "WARNING: Force update will result in files being re-verified" + Environment.NewLine +
                     "and re-downloaded. While this may fix problems with game" + Environment.NewLine +
                     "files, this also may delete some custom modifications" + Environment.NewLine +
@@ -88,8 +88,11 @@ namespace DTAConfig.OptionPanels
                     "client will proceed to checking for updates." + 
                     Environment.NewLine + Environment.NewLine +
                     "Do you really want to force update?" + Environment.NewLine, XNAMessageBoxButtons.YesNo);
-            msgBox.Show();
-            msgBox.YesClickedAction = ForceUpdateMsgBox_YesClicked;
+
+            msgForceUpdateConfirmation.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgForceUpdateConfirmation));
+
+            msgForceUpdateConfirmation.Show();
+            msgForceUpdateConfirmation.YesClickedAction = ForceUpdateMsgBox_YesClicked;
         }
 
         private void ForceUpdateMsgBox_YesClicked(XNAMessageBox obj)
