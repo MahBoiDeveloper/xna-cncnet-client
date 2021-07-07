@@ -499,9 +499,14 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             if (Map == null)
                 return;
 
-            var messageBox = XNAMessageBox.ShowYesNoDialog(WindowManager, "Delete Confirmation",
-                "Are you sure you wish to delete the custom map \"" + Map.Name + "\"?");
-            messageBox.YesClickedAction = DeleteSelectedMap;
+            var msgDeleteConfirmation = new XNAMessageBox(WindowManager, "Delete Confirmation",
+                "Are you sure you wish to delete the custom map \"{0}\"?", XNAMessageBoxButtons.YesNo);
+
+            msgDeleteConfirmation.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgDeleteConfirmation));
+            msgDeleteConfirmation.description = string.Format(msgDeleteConfirmation.description, Map.Name);
+            msgDeleteConfirmation.Show();
+
+            msgDeleteConfirmation.YesClickedAction = DeleteSelectedMap;
         }
 
         private void DeleteSelectedMap(XNAMessageBox messageBox)
@@ -527,8 +532,13 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
             }
             catch (IOException ex)
             {
+                var msgDeletingMapFailed = new XNAMessageBox(WindowManager, "Deleting Map Failed", 
+                    "Deleting map failed! Reason: {0}", XNAMessageBoxButtons.OK);
+                msgDeletingMapFailed.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgDeletingMapFailed));
+                msgDeletingMapFailed.description = string.Format(msgDeletingMapFailed.description, ex.Message);
+                msgDeletingMapFailed.Show();
+                
                 Logger.Log($"Deleting map {Map.BaseFilePath} failed! Message: {ex.Message}");
-                XNAMessageBox.Show(WindowManager, "Deleting Map Failed", "Deleting map failed! Reason: " + ex.Message);
             }
         }
 

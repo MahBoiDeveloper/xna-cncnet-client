@@ -51,21 +51,9 @@ namespace ClientGUI
 
 
         private string caption;
-        private string description;
+        public string description;
         private XNAMessageBoxButtons messageBoxButtons;
-
-        public string Description
-        {
-            get
-            {
-                return description;
-            }
-            set
-            {
-                this.description = Description;
-            }
-        }
-
+        
         public override void Initialize()
         {
             Name = "MessageBox";
@@ -109,7 +97,7 @@ namespace ClientGUI
             WindowManager.CenterControlOnScreen(this);
         }
 
-        public void RewriteCaptionAndDescriptionFromIni(string strFileToParseStrings, string strSection)
+        public void RewriteCaptionAndDescriptionFromIniFile(string strFileToParseStrings, string strSection)
         {
             ThemeCCIniFile iniFile = new ThemeCCIniFile(strFileToParseStrings);
             caption     = iniFile.GetStringValue(strSection, "Caption", caption)        .Replace("@", Environment.NewLine);

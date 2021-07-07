@@ -71,7 +71,7 @@ namespace DTAClient.DXGUI.Generic
 
         private TopBar topBar;
 
-        private XNAMessageBox firstRunMessageBox;
+        private XNAMessageBox msgInitialInstallation;
 
         private bool _updateInProgress;
         private bool UpdateInProgress
@@ -399,7 +399,8 @@ namespace DTAClient.DXGUI.Generic
                 .FindAll(f => !string.IsNullOrWhiteSpace(f) && !File.Exists(ProgramConstants.GamePath + f));
 
             if (absentFiles.Count > 0)
-                XNAMessageBox.Show(WindowManager, "Missing Files",
+            {
+                var msgMissingFiles = new XNAMessageBox(WindowManager, "Missing Files",
 #if ARES
                     "You are missing Yuri's Revenge files that are required" + Environment.NewLine +
                     "to play this mod! Yuri's Revenge mods are not standalone," + Environment.NewLine +
@@ -409,9 +410,15 @@ namespace DTAClient.DXGUI.Generic
                     "The following required files are missing:" +
 #endif
                     Environment.NewLine + Environment.NewLine +
-                    String.Join(Environment.NewLine, absentFiles) +
+                    "{0}" + 
                     Environment.NewLine + Environment.NewLine +
-                    "You won't be able to play without those files.");
+                    "You won't be able to play without those files.", XNAMessageBoxButtons.OK);
+
+                msgMissingFiles.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgMissingFiles));
+                msgMissingFiles.description = string.Format(msgMissingFiles.description, String.Join(Environment.NewLine, absentFiles));
+
+                msgMissingFiles.Show();
+            }
         }
 
         private void CheckForbiddenFiles()
@@ -420,7 +427,8 @@ namespace DTAClient.DXGUI.Generic
                 .FindAll(f => !string.IsNullOrWhiteSpace(f) && File.Exists(ProgramConstants.GamePath + f));
 
             if (presentFiles.Count > 0)
-                XNAMessageBox.Show(WindowManager, "Interfering Files Detected",
+            {
+                var msgInterferingFilesDetected = new XNAMessageBox(WindowManager, "Interfering Files Detected",
 #if TS
                     "You have installed the mod on top of a Tiberian Sun" + Environment.NewLine +
                     "copy! This mod is standalone, therefore you have to" + Environment.NewLine +
@@ -431,11 +439,17 @@ namespace DTAClient.DXGUI.Generic
 #else
                     "The following interfering files are present:" +
                     Environment.NewLine + Environment.NewLine +
-                    String.Join(Environment.NewLine, presentFiles) +
+                    "{0}" +
                     Environment.NewLine + Environment.NewLine +
                     "The mod won't work correctly without those files removed."
 #endif
-                    );
+                    , XNAMessageBoxButtons.OK);
+
+                msgInterferingFilesDetected.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgInterferingFilesDetected));
+                msgInterferingFilesDetected.description = string.Format(msgInterferingFilesDetected.description, String.Join(Environment.NewLine, presentFiles));
+
+                msgInterferingFilesDetected.Show();
+            }
         }
 
         /// <summary>
@@ -450,12 +464,16 @@ namespace DTAClient.DXGUI.Generic
                 UserINISettings.Instance.IsFirstRun.Value = false;
                 UserINISettings.Instance.SaveSettings();
 
-                firstRunMessageBox = XNAMessageBox.ShowYesNoDialog(WindowManager, "Initial Installation",
-                    string.Format("You have just installed {0}." + Environment.NewLine +
+                msgInitialInstallation = new XNAMessageBox(WindowManager, "Initial Installation",
+                    "You have just installed {0}." + Environment.NewLine +
                     "It's highly recommended that you configure your settings before playing." +
-                    Environment.NewLine + "Do you want to configure them now?", ClientConfiguration.Instance.LocalGame));
-                firstRunMessageBox.YesClickedAction = FirstRunMessageBox_YesClicked;
-                firstRunMessageBox.NoClickedAction = FirstRunMessageBox_NoClicked;
+                    Environment.NewLine + "Do you want to configure them now?", XNAMessageBoxButtons.YesNo);
+
+                msgInitialInstallation.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgInitialInstallation));
+                msgInitialInstallation.description = string.Format(msgInitialInstallation.description, ClientConfiguration.Instance.LocalGame);
+
+                msgInitialInstallation.YesClickedAction = FirstRunMessageBox_YesClicked;
+                msgInitialInstallation.NoClickedAction = FirstRunMessageBox_NoClicked;
             }
 
             optionsWindow.PostInit();
@@ -552,15 +570,19 @@ namespace DTAClient.DXGUI.Generic
             UpdateInProgress = false;
 
             innerPanel.Show(null); // Darkening
-            XNAMessageBox msgBox = new XNAMessageBox(WindowManager, "Update failed",
-                string.Format("An error occured while updating. Returned error was: {0}" +
+            var msgUpdateFailed = new XNAMessageBox(WindowManager, "Update Failed",
+               "An error occured while updating. Returned error was: {0}" +
                 Environment.NewLine + Environment.NewLine +
                 "If you are connected to the Internet and your firewall isn't blocking" + Environment.NewLine +
                 "{1}, and the issue is reproducible, contact us at " + Environment.NewLine +
-                "{2} for support.",
-                e.Reason, CUpdater.CURRENT_LAUNCHER_NAME, MainClientConstants.SUPPORT_URL_SHORT), XNAMessageBoxButtons.OK);
-            msgBox.OKClickedAction = MsgBox_OKClicked;
-            msgBox.Show();
+                "{2} for support." , XNAMessageBoxButtons.OK);
+
+            msgUpdateFailed.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgUpdateFailed));
+            msgUpdateFailed.description = string.Format(msgUpdateFailed.description,
+                e.Reason, CUpdater.CURRENT_LAUNCHER_NAME, MainClientConstants.SUPPORT_URL_SHORT);
+
+            msgUpdateFailed.OKClickedAction = MsgBox_OKClicked;
+            msgUpdateFailed.Show();
         }
 
         private void MsgBox_OKClicked(XNAMessageBox messageBox)
@@ -678,7 +700,7 @@ namespace DTAClient.DXGUI.Generic
             if (UpdateInProgress)
                 return;
 
-            if ((firstRunMessageBox != null && firstRunMessageBox.Visible) || optionsWindow.Enabled)
+            if ((msgInitialInstallation != null && msgInitialInstallation.Visible) || optionsWindow.Enabled)
             {
                 // If the custom components are out of date on the first run
                 // or the options window is already open, don't show the dialog
@@ -688,11 +710,13 @@ namespace DTAClient.DXGUI.Generic
 
             customComponentDialogQueued = false;
 
-            XNAMessageBox ccMsgBox = XNAMessageBox.ShowYesNoDialog(WindowManager,
-                "Custom Component Updates Available",
+            var msgCustomComponentUpdatesAvailable = new XNAMessageBox(WindowManager, "Custom Component Updates Available",
                 "Updates for custom components are available. Do you want to open" + Environment.NewLine +
-                "the Options menu where you can update the custom components?");
-            ccMsgBox.YesClickedAction = CCMsgBox_YesClicked;
+                "the Options menu where you can update the custom components?", XNAMessageBoxButtons.YesNo);
+
+            msgCustomComponentUpdatesAvailable.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgCustomComponentUpdatesAvailable));
+
+            msgCustomComponentUpdatesAvailable.YesClickedAction = CCMsgBox_YesClicked;
         }
 
         private void CCMsgBox_YesClicked(XNAMessageBox messageBox)

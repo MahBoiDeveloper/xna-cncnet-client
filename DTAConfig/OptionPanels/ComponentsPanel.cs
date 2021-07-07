@@ -155,8 +155,8 @@ namespace DTAConfig.OptionPanels
                     "You will not be able to play during the download. Do you want to continue?", XNAMessageBoxButtons.YesNo);
                 msgConfirmationRequired.Tag = btn;
 
-                msgConfirmationRequired.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgConfirmationRequired));
-                msgConfirmationRequired.Description = string.Format(msgConfirmationRequired.Description, cc.GUIName, GetSizeString(cc.RemoteSize));
+                msgConfirmationRequired.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgConfirmationRequired));
+                msgConfirmationRequired.description = string.Format(msgConfirmationRequired.description, cc.GUIName, GetSizeString(cc.RemoteSize));
 
                 msgConfirmationRequired.Show();
                 msgConfirmationRequired.YesClickedAction = MsgBox_YesClicked;
@@ -235,8 +235,8 @@ namespace DTAConfig.OptionPanels
                         "If this problem continues, please contact your mod's authors for support.",
                         XNAMessageBoxButtons.OK);
 
-                    msgOptionalComponentDownloadFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgOptionalComponentDownloadFailed));
-                    msgOptionalComponentDownloadFailed.Description = string.Format(msgOptionalComponentDownloadFailed.Description, cc.GUIName);
+                    msgOptionalComponentDownloadFailed.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgOptionalComponentDownloadFailed));
+                    msgOptionalComponentDownloadFailed.description = string.Format(msgOptionalComponentDownloadFailed.description, cc.GUIName);
 
                     msgOptionalComponentDownloadFailed.Show();
                 }
@@ -251,8 +251,8 @@ namespace DTAConfig.OptionPanels
                 var msgDownloadCompleted = new XNAMessageBox(WindowManager, "Download Completed",
                     "Download of optional component {0} completed succesfully.", XNAMessageBoxButtons.OK);
                 
-                msgDownloadCompleted.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgDownloadCompleted));
-                msgDownloadCompleted.Description = string.Format(msgDownloadCompleted.Description, cc.GUIName);
+                msgDownloadCompleted.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgDownloadCompleted));
+                msgDownloadCompleted.description = string.Format(msgDownloadCompleted.description, cc.GUIName);
                 msgDownloadCompleted.Show();
 
                 btn.Text = "Uninstall";

@@ -383,8 +383,8 @@ namespace DTAConfig.OptionPanels
                     "administrative priveleges. Would you like to install the compatibility fix?" + Environment.NewLine + Environment.NewLine + 
                     "You'll always be able to install or uninstall the compatibility fix later from the options menu.", XNAMessageBoxButtons.YesNo);
 
-                msgNewCompatibilityFix.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgNewCompatibilityFix));
-                msgNewCompatibilityFix.Description = string.Format(msgNewCompatibilityFix.Description, defaultGame);
+                msgNewCompatibilityFix.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgNewCompatibilityFix));
+                msgNewCompatibilityFix.description = string.Format(msgNewCompatibilityFix.description, defaultGame);
                 
                 msgNewCompatibilityFix.Show();
 
@@ -433,7 +433,7 @@ namespace DTAConfig.OptionPanels
                     var msgCompatibilityFixUninstalled = new XNAMessageBox(WindowManager, "Compatibility Fix Uninstalled",
                         "The DTA/TI/TS Compatibility Fix has been succesfully uninstalled.", XNAMessageBoxButtons.OK);
 
-                    msgCompatibilityFixUninstalled.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgCompatibilityFixUninstalled));
+                    msgCompatibilityFixUninstalled.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgCompatibilityFixUninstalled));
 
                     msgCompatibilityFixUninstalled.Show();
 
@@ -451,8 +451,8 @@ namespace DTAConfig.OptionPanels
                     var msgUninstallingCompatibilityFixFailed = new XNAMessageBox(WindowManager, "Uninstalling Compatibility Fix Failed",
                         "Uninstalling DTA/TI/TS Compatibility Fix failed. Returned error: {0}", XNAMessageBoxButtons.OK);
 
-                    msgUninstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgUninstallingCompatibilityFixFailed));
-                    msgUninstallingCompatibilityFixFailed.Description = string.Format(msgUninstallingCompatibilityFixFailed.Description, ex.Message);
+                    msgUninstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgUninstallingCompatibilityFixFailed));
+                    msgUninstallingCompatibilityFixFailed.description = string.Format(msgUninstallingCompatibilityFixFailed.description, ex.Message);
 
                     msgUninstallingCompatibilityFixFailed.Show();
                 }
@@ -470,7 +470,7 @@ namespace DTAConfig.OptionPanels
                 var msgCompatibilityFixInstalled = new XNAMessageBox(WindowManager, "Compatibility Fix Installed",
                     "The DTA/TI/TS Compatibility Fix has been succesfully installed.", XNAMessageBoxButtons.OK);
 
-                msgCompatibilityFixInstalled.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgCompatibilityFixInstalled));
+                msgCompatibilityFixInstalled.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgCompatibilityFixInstalled));
 
                 msgCompatibilityFixInstalled.Show();
 
@@ -488,8 +488,8 @@ namespace DTAConfig.OptionPanels
                 var msgInstallingCompatibilityFixFailed = new XNAMessageBox(WindowManager, "Installing Compatibility Fix Failed",
                     "Installing DTA/TI/TS Compatibility Fix failed. Error message: {0}", XNAMessageBoxButtons.OK);
 
-                msgInstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgInstallingCompatibilityFixFailed));
-                msgInstallingCompatibilityFixFailed.Description = string.Format(msgInstallingCompatibilityFixFailed.Description, ex.Message);
+                msgInstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgInstallingCompatibilityFixFailed));
+                msgInstallingCompatibilityFixFailed.description = string.Format(msgInstallingCompatibilityFixFailed.description, ex.Message);
 
                 msgInstallingCompatibilityFixFailed.Show();
             }
@@ -515,7 +515,7 @@ namespace DTAConfig.OptionPanels
                     var msgFSCompatibilityFixUninstalled = new XNAMessageBox(WindowManager, "Compatibility Fix Uninstalled",
                         "The FinalSun Compatibility Fix has been succesfully uninstalled.", XNAMessageBoxButtons.OK);
 
-                    msgFSCompatibilityFixUninstalled.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgFSCompatibilityFixUninstalled));
+                    msgFSCompatibilityFixUninstalled.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgFSCompatibilityFixUninstalled));
 
                     msgFSCompatibilityFixUninstalled.Show();
 
@@ -527,8 +527,8 @@ namespace DTAConfig.OptionPanels
                     var msgFSUninstallingCompatibilityFixFailed = new XNAMessageBox(WindowManager, "Uninstalling Compatibility Fix Failed",
                         "Uninstalling FinalSun Compatibility Fix failed. Error message: {0}", XNAMessageBoxButtons.OK);
 
-                    msgFSUninstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgFSUninstallingCompatibilityFixFailed));
-                    msgFSUninstallingCompatibilityFixFailed.Description = string.Format(msgFSUninstallingCompatibilityFixFailed.Description, ex.Message);
+                    msgFSUninstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgFSUninstallingCompatibilityFixFailed));
+                    msgFSUninstallingCompatibilityFixFailed.description = string.Format(msgFSUninstallingCompatibilityFixFailed.description, ex.Message);
 
                     msgFSUninstallingCompatibilityFixFailed.Show();
                 }
@@ -552,7 +552,7 @@ namespace DTAConfig.OptionPanels
                 var msgFSCompatibilityFixInstalled = new XNAMessageBox(WindowManager, "Compatibility Fix Installed",
                     "The FinalSun Compatibility Fix has been succesfully installed.", XNAMessageBoxButtons.OK);
 
-                msgFSCompatibilityFixInstalled.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgFSCompatibilityFixInstalled));
+                msgFSCompatibilityFixInstalled.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgFSCompatibilityFixInstalled));
 
                 msgFSCompatibilityFixInstalled.Show();
 
@@ -564,8 +564,8 @@ namespace DTAConfig.OptionPanels
                 var msgFSInstallingCompatibilityFixFailed = new XNAMessageBox(WindowManager, "Installing Compatibility Fix Failed",
                     "Installing FinalSun Compatibility Fix failed. Error message: {0}", XNAMessageBoxButtons.OK);
 
-                msgFSInstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgFSInstallingCompatibilityFixFailed));
-                msgFSInstallingCompatibilityFixFailed.Description = string.Format(msgFSInstallingCompatibilityFixFailed.Description, ex.Message);
+                msgFSInstallingCompatibilityFixFailed.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgFSInstallingCompatibilityFixFailed));
+                msgFSInstallingCompatibilityFixFailed.description = string.Format(msgFSInstallingCompatibilityFixFailed.description, ex.Message);
 
                 msgFSInstallingCompatibilityFixFailed.Show();
             }

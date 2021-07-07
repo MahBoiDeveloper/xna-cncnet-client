@@ -147,7 +147,11 @@ namespace DTAClient.DXGUI.Generic
 
             if (CUpdater.DTAVersionState == VersionState.UNKNOWN)
             {
-                XNAMessageBox.Show(WindowManager, "Force Update Failure", "Checking for updates failed.");
+                var msgForceUpdateFailure = new XNAMessageBox(WindowManager, "Force Update Failure", 
+                    "Checking for updates failed.", XNAMessageBoxButtons.OK);
+                msgForceUpdateFailure.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgForceUpdateFailure));
+                msgForceUpdateFailure.Show();
+
                 CloseWindow();
                 return;
             }

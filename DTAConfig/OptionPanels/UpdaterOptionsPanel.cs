@@ -89,7 +89,7 @@ namespace DTAConfig.OptionPanels
                     Environment.NewLine + Environment.NewLine +
                     "Do you really want to force update?" + Environment.NewLine, XNAMessageBoxButtons.YesNo);
 
-            msgForceUpdateConfirmation.RewriteCaptionAndDescriptionFromIni("OptionsWindow", nameof(msgForceUpdateConfirmation));
+            msgForceUpdateConfirmation.RewriteCaptionAndDescriptionFromIniFile("OptionsWindow", nameof(msgForceUpdateConfirmation));
 
             msgForceUpdateConfirmation.Show();
             msgForceUpdateConfirmation.YesClickedAction = ForceUpdateMsgBox_YesClicked;

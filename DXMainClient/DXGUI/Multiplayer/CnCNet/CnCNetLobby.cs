@@ -1122,9 +1122,11 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
                 // JoinGameByIndex does bounds checking so we're safe to pass -1 if the game doesn't exist
                 if (!JoinGameByIndex(lbGameList.HostedGames.FindIndex(hg => ((HostedCnCNetGame)hg).ChannelName == channelName), password))
                 {
-                    XNAMessageBox.Show(WindowManager,
-                        "Failed to join",
-                        "Unable to join " + sender + "'s game. The game may be locked or closed.");
+                    var msgFailedToJoin = new XNAMessageBox(WindowManager,
+                        "Failed To Join",
+                        "Unable to join {0}'s game. The game may be locked or closed.", XNAMessageBoxButtons.OK);
+                    msgFailedToJoin.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgFailedToJoin));
+                    msgFailedToJoin.description = string.Format(msgFailedToJoin.description, sender);
                 }
 
                 // clean up the index as this invitation no longer exists
@@ -1304,10 +1306,14 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
                 string version = e.Message.Substring(7);
                 if (version != ProgramConstants.GAME_VERSION)
                 {
-                    var updateMessageBox = XNAMessageBox.ShowYesNoDialog(WindowManager, "Update available",
-                        "An update is available. Do you want to perform the update now?");
-                    updateMessageBox.NoClickedAction = UpdateMessageBox_NoClicked;
-                    updateMessageBox.YesClickedAction = UpdateMessageBox_YesClicked;
+                    var msgUpdateAvailable = new XNAMessageBox(WindowManager, "Update Available",
+                        "An update is available. Do you want to perform the update now?", XNAMessageBoxButtons.YesNo);
+
+                    msgUpdateAvailable.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgUpdateAvailable));
+                    msgUpdateAvailable.Show();
+
+                    msgUpdateAvailable.NoClickedAction = MsgUpdateAvailable_NoClicked;
+                    msgUpdateAvailable.YesClickedAction = MsgUpdateAvailable_YesClicked;
                 }
             }
 
@@ -1412,10 +1418,10 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
             }
         }
 
-        private void UpdateMessageBox_YesClicked(XNAMessageBox messageBox) =>
+        private void MsgUpdateAvailable_YesClicked(XNAMessageBox messageBox) =>
             UpdateCheck?.Invoke(this, EventArgs.Empty);
 
-        private void UpdateMessageBox_NoClicked(XNAMessageBox messageBox) => updateDenied = true;
+        private void MsgUpdateAvailable_NoClicked(XNAMessageBox messageBox) => updateDenied = true;
 
         private void BtnLogout_LeftClick(object sender, EventArgs e)
         {

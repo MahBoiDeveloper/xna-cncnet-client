@@ -377,7 +377,9 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                     sb.Append(Environment.NewLine);
                     sb.Append($"{chatBoxCommand.Command}: {chatBoxCommand.Description}");
                 }
-                XNAMessageBox.Show(WindowManager, "Chat Box Command Help", sb.ToString());
+                var msgChatBoxCommandHelp = new XNAMessageBox(WindowManager, "Chat Box Command Help", sb.ToString(), XNAMessageBoxButtons.OK);
+                msgChatBoxCommandHelp.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgChatBoxCommandHelp));
+                msgChatBoxCommandHelp.Show();
                 return;
             }
 

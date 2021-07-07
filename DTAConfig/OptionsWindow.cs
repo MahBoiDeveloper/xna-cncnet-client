@@ -134,7 +134,7 @@ namespace DTAConfig
                     "Optional component downloads are in progress. The downloads will be cancelled if you exit the Options menu." +
                     Environment.NewLine + Environment.NewLine +
                     "Are you sure you want to continue?", XNAMessageBoxButtons.YesNo);
-                msgDownloadInProgress.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgDownloadInProgress));
+                msgDownloadInProgress.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgDownloadInProgress));
                 msgDownloadInProgress.Show();
                 msgDownloadInProgress.YesClickedAction = ExitDownloadCancelConfirmation_YesClicked;
 
@@ -160,7 +160,7 @@ namespace DTAConfig
                     "Optional component downloads are in progress. The downloads will be cancelled if you exit the Options menu." +
                     Environment.NewLine + Environment.NewLine +
                     "Are you sure you want to continue?", XNAMessageBoxButtons.YesNo);
-                msgDownloadInProgress.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgDownloadInProgress));
+                msgDownloadInProgress.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgDownloadInProgress));
                 msgDownloadInProgress.Show();
                 msgDownloadInProgress.YesClickedAction = SaveDownloadCancelConfirmation_YesClicked;
 
@@ -197,8 +197,8 @@ namespace DTAConfig
                 var msgSavingSettingFailed = new XNAMessageBox(WindowManager, "Saving Settings Failed",
                     "Saving settings failed! Error message: {0}" , XNAMessageBoxButtons.OK);
 
-                msgSavingSettingFailed.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgSavingSettingFailed));
-                msgSavingSettingFailed.Description = string.Format(msgSavingSettingFailed.Description, ex.Message);
+                msgSavingSettingFailed.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgSavingSettingFailed));
+                msgSavingSettingFailed.description = string.Format(msgSavingSettingFailed.description, ex.Message);
 
                 msgSavingSettingFailed.Show();
             }
@@ -211,7 +211,7 @@ namespace DTAConfig
                     "The client needs to be restarted for some of the changes to take effect." +
                     Environment.NewLine + Environment.NewLine +
                     "Do you want to restart now?", XNAMessageBoxButtons.YesNo);
-                msgRestartRequired.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgRestartRequired));
+                msgRestartRequired.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgRestartRequired));
                 msgRestartRequired.Show();
                 msgRestartRequired.YesClickedAction = RestartMsgBox_YesClicked;
             }
@@ -242,7 +242,7 @@ namespace DTAConfig
                     "You may want to verify the new setting" + Environment.NewLine +
                     "values in client's options window.", XNAMessageBoxButtons.OK);
 
-                msgSettingsValuesChanged.RewriteCaptionAndDescriptionFromIni(Name, nameof(msgSettingsValuesChanged));
+                msgSettingsValuesChanged.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgSettingsValuesChanged));
                 msgSettingsValuesChanged.Show();
 
                 return true;

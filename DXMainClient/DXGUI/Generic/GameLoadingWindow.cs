@@ -138,16 +138,21 @@ namespace DTAClient.DXGUI.Generic
         private void BtnDelete_LeftClick(object sender, EventArgs e)
         {
             SavedGame sg = savedGames[lbSaveGameList.SelectedIndex];
-            var msgBox = new XNAMessageBox(WindowManager, "Delete Confirmation",
+            var msgDeleteConfirmation = new XNAMessageBox(WindowManager, "Delete Confirmation",
                     "The following saved game will be deleted permanently:" + Environment.NewLine +
                     Environment.NewLine +
-                    "Filename: " + sg.FileName + Environment.NewLine +
-                    "Saved game name: " + Renderer.GetSafeString(sg.GUIName, lbSaveGameList.FontIndex) + Environment.NewLine +
-                    "Date and time: " + sg.LastModified.ToString() + Environment.NewLine +
+                    "Filename: {0}" + Environment.NewLine +
+                    "Saved game name: {1}" + Environment.NewLine +
+                    "Date and time: {2}" + Environment.NewLine +
                     Environment.NewLine +
                     "Are you sure you want to proceed?", XNAMessageBoxButtons.YesNo);
-            msgBox.Show();
-            msgBox.YesClickedAction = DeleteMsgBox_YesClicked;
+
+            msgDeleteConfirmation.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgDeleteConfirmation));
+            msgDeleteConfirmation.description = string.Format(msgDeleteConfirmation.description, sg.FileName,
+                Renderer.GetSafeString(sg.GUIName, lbSaveGameList.FontIndex), sg.LastModified.ToString());
+
+            msgDeleteConfirmation.Show();
+            msgDeleteConfirmation.YesClickedAction = DeleteMsgBox_YesClicked;
         }
 
         private void DeleteMsgBox_YesClicked(XNAMessageBox obj)

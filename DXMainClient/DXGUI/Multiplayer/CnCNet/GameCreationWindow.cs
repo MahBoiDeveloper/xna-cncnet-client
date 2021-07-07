@@ -224,8 +224,10 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
 
             if (new ProfanityFilter().IsOffensive(gameName))
             {
-                XNAMessageBox.Show(WindowManager, "Offensive game name",
-                    "Please enter a less offensive game name.");
+                var msgOffensiveGameName = new XNAMessageBox(WindowManager, "Offensive Game Name",
+                    "Please enter a less offensive game name.", XNAMessageBoxButtons.OK);
+                msgOffensiveGameName.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgOffensiveGameName));
+                msgOffensiveGameName.Show();
                 return;
             }
 

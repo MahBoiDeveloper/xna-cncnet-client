@@ -150,7 +150,10 @@ namespace DTAClient.DXGUI.Multiplayer.GameLobby
                 return;
             }
 
-            XNAMessageBox.Show(WindowManager, "Cannot launch game", error);
+            var msgCannotLaunchGame = new XNAMessageBox(WindowManager, "Cannot Launch Game", "{0}", XNAMessageBoxButtons.OK);
+            msgCannotLaunchGame.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgCannotLaunchGame));
+            msgCannotLaunchGame.description = string.Format(msgCannotLaunchGame.description, error);
+            msgCannotLaunchGame.Show();
         }
 
         protected override void BtnLeaveGame_LeftClick(object sender, EventArgs e)

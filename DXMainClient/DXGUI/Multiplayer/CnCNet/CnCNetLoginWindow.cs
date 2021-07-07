@@ -138,7 +138,10 @@ namespace DTAClient.DXGUI.Multiplayer.CnCNet
 
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                XNAMessageBox.Show(WindowManager, "Invalid Player Name", errorMessage);
+                var msgInvalidPlayerName = new XNAMessageBox(WindowManager, "Invalid Player Name", "{0}", XNAMessageBoxButtons.OK);
+                msgInvalidPlayerName.RewriteCaptionAndDescriptionFromIniFile(Name, nameof(msgInvalidPlayerName));
+                msgInvalidPlayerName.description = string.Format(msgInvalidPlayerName.description, errorMessage);
+                msgInvalidPlayerName.Show();
                 return;
             }
 
